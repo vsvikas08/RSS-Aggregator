@@ -28,6 +28,12 @@ func main() {
 		MaxAge: 300,
 	}))
 
+	v1Router := chi.NewRouter()
+	v1Router.Get("/healthz",handlerReadiness) // Get fire only GET method
+	v1Router.Get("/err",handleErr)
+
+	router.Mount("/v1",v1Router) // mounting v1Router: /v1/healthz
+
 	server := &http.Server{
 		Handler: router,
 		Addr: ":" + portString,
